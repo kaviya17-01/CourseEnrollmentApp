@@ -72,7 +72,9 @@ class CourseServiceImplTest {
 
     @Test
     void deleteCourse_shouldCallRepository() {
+        doNothing().when(courseRepository).deleteById(1L);
         courseService.deleteCourse(1L);
-        verify(courseRepository).deleteById(1L);
+        verify(courseRepository, times(1)).deleteById(1L);
     }
+
 }

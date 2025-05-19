@@ -71,13 +71,15 @@ class CourseServiceImplTest {
 
     @Test
     void deleteCourse_shouldCallRepository() {
-        Course course = new Course(1L, "Java", "Learn Java");
-        when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
-
-        courseService.deleteCourse(1L);
-
-        verify(courseRepository).deleteById(1L);
+        Long courseId = 1L;
+        Course course = new Course();  // mock Course object
+        when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
+    
+        courseService.deleteCourse(courseId);
+    
+        verify(courseRepository).delete(course);
     }
+
 
     @Test
     void deleteCourse_shouldThrowIfNotFound() {

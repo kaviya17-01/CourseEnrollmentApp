@@ -69,22 +69,4 @@ class CourseServiceImplTest {
         assertEquals("New", result.getTitle());
     }
 
-    // @Test
-    // void deleteCourse_shouldCallRepository() {
-    //     Long courseId = 1L;
-    //     Course course = new Course();  // mock Course object
-    //     when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
-    
-    //     courseService.deleteCourse(courseId);
-    
-    //     verify(courseRepository).delete(course);
-    // }
-
-
-    // @Test
-    // void deleteCourse_shouldThrowIfNotFound() {
-    //     when(courseRepository.findById(1L)).thenReturn(Optional.empty());
-
-    //     assertThrows(ResourceNotFoundException.class, () -> courseService.deleteCourse(1L));
-    // }
 }

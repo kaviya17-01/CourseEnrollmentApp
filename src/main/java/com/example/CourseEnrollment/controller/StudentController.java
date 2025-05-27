@@ -70,18 +70,18 @@ public class StudentController {
             return ResponseEntity.status(201).body(createdStudent);
         }
         
+        // Get All Students   
+        @GetMapping
+        public ResponseEntity<List<StudentDTO>> getAllStudents() {
+            List<StudentDTO> students = studentService.getAllStudents();
+            return ResponseEntity.ok(students);
+        }
+        
         // Get Students by id
         @GetMapping("/{id}")
         public ResponseEntity<StudentDTO> getStudentById(@PathVariable Long id) {
             StudentDTO studentDTO = studentService.getStudentById(id);
             return ResponseEntity.ok(studentDTO);
-        }
-        
-         // Get All Students   
-        @GetMapping
-        public ResponseEntity<List<StudentDTO>> getAllStudents() {
-            List<StudentDTO> students = studentService.getAllStudents();
-            return ResponseEntity.ok(students);
         }
         
         // Update Student by id

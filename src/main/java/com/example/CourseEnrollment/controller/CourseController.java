@@ -65,15 +65,16 @@ public class CourseController {
             return courseService.saveCourse(courseDTO);
         }
 
+        @GetMapping  // view all the courses
+        public List<CourseDTO> getAllCourses() {
+            return courseService.getAllCourses();
+        }
+
         @GetMapping("/{id}") // Get course by id
         public CourseDTO getCourseById(@PathVariable Long id) {
             return courseService.getCourseById(id);
         }
 
-        @GetMapping  // view all the courses
-        public List<CourseDTO> getAllCourses() {
-            return courseService.getAllCourses();
-        }
 
         @PutMapping("/{id}") // update course
         public CourseDTO updateCourse(@PathVariable Long id, @RequestBody CourseDTO courseDTO) {

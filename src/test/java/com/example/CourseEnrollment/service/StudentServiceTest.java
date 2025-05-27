@@ -30,22 +30,22 @@ class StudentServiceTest {
 
     @Test
     void saveStudent_shouldReturnSavedStudentDTO() {
-        Student student = new Student(1L, "Hema", "Hema@gmail.com");
+        Student student = new Student(1L, "kaviya", "kaviya@gmail.com");
         when(studentRepository.save(any())).thenReturn(student);
 
-        StudentDTO result = studentService.saveStudent(new StudentDTO(null, "Hema", "Hema@gmail.com"));
+        StudentDTO result = studentService.saveStudent(new StudentDTO(null, "kaviya", "kaviya@gmail.com"));
 
-        assertEquals("Hema", result.getName());
+        assertEquals("kaviya", result.getName());
         verify(studentRepository).save(any());
     }
 
     @Test
     void getStudentById_shouldReturnStudentDTO() {
-        Student student = new Student(1L, "Hema", "Hema@gmail.com");
+        Student student = new Student(1L, "kaviya", "kaviya@gmail.com");
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
 
         StudentDTO result = studentService.getStudentById(1L);
-        assertEquals("Hema", result.getName());
+        assertEquals("kaviya", result.getName());
     }
 
     @Test
@@ -57,7 +57,7 @@ class StudentServiceTest {
 
     @Test
     void getAllStudents_shouldReturnListOfStudentDTOs() {
-        List<Student> students = Arrays.asList(new Student(1L, "Hema", "Hema@gmail.com"));
+        List<Student> students = Arrays.asList(new Student(1L, "kaviya", "kaviya@gmail.com"));
         when(studentRepository.findAll()).thenReturn(students);
 
         List<StudentDTO> result = studentService.getAllStudents();

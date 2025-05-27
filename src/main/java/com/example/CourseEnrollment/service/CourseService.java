@@ -38,6 +38,13 @@ class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseDTO saveCourse(CourseDTO courseDTO) {
+
+        // Check for duplicate course titles
+        courseRepository.findByTitle(courseDTO.getTitle())
+        .ifPresent(existing -> {
+            throw new IllegalArgumentException("Course with same title already exists!");
+        });
+
         Course course = new Course();
         course.setTitle(courseDTO.getTitle());
         course.setDescription(courseDTO.getDescription());

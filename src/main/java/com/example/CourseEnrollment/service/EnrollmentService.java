@@ -42,11 +42,19 @@ class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     public EnrollmentDTO enrollStudent(EnrollmentDTO enrollmentDTO) {
-        Student student = studentRepository.findById(enrollmentDTO.getStudentId())
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + enrollmentDTO.getStudentId()));
+        Long studentId = enrollmentDTO.getStudentId();
+        Long courseId = enrollmentDTO.getCourseId();
 
-        Course course = courseRepository.findById(enrollmentDTO.getCourseId())
-                .orElseThrow(() -> new ResourceNotFoundException("Course not found with ID: " + enrollmentDTO.getCourseId()));
+        // Check if student is already enrolled in the course
+        enrollmentRepository.findByStudentIdAndCourseId(studentId, courseId)
+            .ifPresent(e -> {
+                throw new IllegalArgumentException("Student is already enrolled in this course.");
+            });
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + studentId));
+
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found with ID: " + courseId));
 
         Enrollment enrollment = DTOMapper.toEnrollmentEntity(enrollmentDTO);
         enrollment.setStudent(student);
@@ -74,14 +82,22 @@ class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     public EnrollmentDTO updateEnrollment(Long id, EnrollmentDTO enrollmentDTO) {
+        Long studentId = enrollmentDTO.getStudentId();
+        Long courseId = enrollmentDTO.getCourseId();
+
+        // Check if student is already enrolled in the course
+        enrollmentRepository.findByStudentIdAndCourseId(studentId, courseId)
+            .ifPresent(e -> {
+                throw new IllegalArgumentException("Student is already enrolled in this course.");
+            });
         Enrollment existingEnrollment = enrollmentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found with ID: " + id));
 
-        Student student = studentRepository.findById(enrollmentDTO.getStudentId())
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + enrollmentDTO.getStudentId()));
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + studentId));
 
         Course course = courseRepository.findById(enrollmentDTO.getCourseId())
-                .orElseThrow(() -> new ResourceNotFoundException("Course not found with ID: " + enrollmentDTO.getCourseId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found with ID: " + courseId));
 
         existingEnrollment.setStudent(student);
         existingEnrollment.setCourse(course);

@@ -55,7 +55,8 @@ public class DTOMapper {
         return dto;
     }
 
-    public static Enrollment toEnrollmentEntity(EnrollmentDTO dto) {
+    public static Enrollment toEnrollmentEntity(EnrollmentDTO dto) 
+    {
         Enrollment enrollment = new Enrollment();
         Student student = new Student();
         student.setId(dto.getStudentId());

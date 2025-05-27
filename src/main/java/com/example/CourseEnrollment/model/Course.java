@@ -10,7 +10,9 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String title;
+    
     private String description;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)

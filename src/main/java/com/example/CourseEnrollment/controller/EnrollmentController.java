@@ -38,9 +38,17 @@ public class EnrollmentController {
 
     // Thymeleaf - Add
     @PostMapping("/add")
-    public String addEnrollment(@ModelAttribute("enrollment") EnrollmentDTO enrollmentDTO) {
-        enrollmentService.enrollStudent(enrollmentDTO);
-        return "redirect:/enrollments";
+    public String addEnrollment(@ModelAttribute("enrollment") EnrollmentDTO enrollmentDTO, Model model) {
+        try {
+            enrollmentService.enrollStudent(enrollmentDTO);
+            return "redirect:/enrollments";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("enrollments", enrollmentService.getAllEnrollmentEntities());
+            model.addAttribute("students", studentService.getAllStudents());
+            model.addAttribute("courses", courseService.getAllCourses());
+            return "enrollments";
+        }
     }
 
     // Thymeleaf - Edit
@@ -62,9 +70,17 @@ public class EnrollmentController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateEnrollment(@PathVariable Long id, @ModelAttribute("enrollment") EnrollmentDTO enrollmentDTO) {
-        enrollmentService.updateEnrollment(id, enrollmentDTO);
-        return "redirect:/enrollments";
+    public String updateEnrollment(@PathVariable Long id, @ModelAttribute("enrollment") EnrollmentDTO enrollmentDTO, Model model) {
+        try {
+            enrollmentService.updateEnrollment(id, enrollmentDTO);
+            return "redirect:/enrollments";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("enrollment", enrollmentDTO);
+            model.addAttribute("students", studentService.getAllStudents());
+            model.addAttribute("courses", courseService.getAllCourses());
+            return "edit_enrollpage";
+        }
     }
 
     // Thymeleaf - Delete
@@ -74,7 +90,7 @@ public class EnrollmentController {
         return "redirect:/enrollments";
     }
 
-    // -----REST APIs----
+    // -----REST APIs----------------------------------------------------------------
 
     @RestController
     @RequestMapping("/api/enrollments")
@@ -86,7 +102,7 @@ public class EnrollmentController {
         // REST API - Add Enrollment
         @PostMapping
         public ResponseEntity<EnrollmentDTO> enrollStudent(@RequestBody EnrollmentDTO enrollmentDTO) {
-            return ResponseEntity.status(201).body(enrollmentService.enrollStudent(enrollmentDTO));
+            return ResponseEntity.status(201).body(enrollmentService.enrollStudent(enrollmentDTO)); // HTTP status 201 for successful resource creation.
         }
 
         // REST API - Get All Enrollments
@@ -115,5 +131,3 @@ public class EnrollmentController {
         }
     }
 }
-
-

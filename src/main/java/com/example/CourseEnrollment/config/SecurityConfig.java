@@ -14,11 +14,14 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/**").permitAll() // Allow all REST endpoints
-                .anyRequest().authenticated()
+                .requestMatchers("/", "/students", "/courses", "/enrollemnts", "/edit_enrollpage").permitAll() // Allow public access
+                .requestMatchers("/api/**").authenticated() // Protect APIs
+                .anyRequest().authenticated() // Everything else requires login
             )
             .httpBasic(Customizer.withDefaults()); 
         return http.build();
     }
 }
 
+// .requestMatchers("/api/**").permitAll() // Allow all REST endpoints
+//                 .anyRequest().authenticated()

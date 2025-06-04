@@ -3,8 +3,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "enrollment", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"student_id", "course_id"})
+@Table(name = "enrollment", uniqueConstraints = {@UniqueConstraint(columnNames = {"student_id", "course_id"})
 })
 public class Enrollment {
 
